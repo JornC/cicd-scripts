@@ -234,4 +234,9 @@ if [[ "${DEPLOY_TERRAFORM_ACTION}" != 'dry-run' ]]; then
   TERRAFORM_ACTION="${DEPLOY_TERRAFORM_ACTION}" \
   TERRAFORM_COMPONENT=application_services \
     scripts/do-terragrunt-action.sh
+
+  if [[ "${DEPLOY_TERRAFORM_ACTION}" == 'apply' && -n "${CICD_QA_PAIR_TARGET:-}" ]]; then
+    AWS_PROFILE="${AWS_ACCOUNT_NAME,,}" AWS_REGION="${AWS_REGION}" \
+      python3 "${CICD_SCRIPTS_DIR}/qa/qa_pair.py" capture --root "${WORKSPACE}"
+  fi
 fi

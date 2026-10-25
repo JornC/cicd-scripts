@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+if [[ -n "${CICD_QA_PAIR_TARGET:-}" ]] && ! [[ "${JOB_NAME:-}" == 'DEPLOY-OTA-ENVIRONMENT' && "${DEPLOY_TERRAFORM_ACTION:-apply}" == 'destroy' ]]; then
+  if [[ "${SOURCE_JOB_NAME^^}" != "${CICD_QA_PAIR_TARGET}" || -z "${CICD_QA_PAIR_PEER_SETTING:-}" || -z "${CICD_QA_PAIR_PEER_HOST:-}" ]]; then
+    echo 'QA pair target or endpoint guard is missing or conflicting' >&2
+    exit 1
+  fi
+  if [[ "${FLAG_SETTINGS[${CICD_QA_PAIR_PEER_SETTING}]:-}" != "${CICD_QA_PAIR_PEER_HOST}" ]]; then
+    echo 'Effective peer endpoint does not match the protected QA pair' >&2
+    exit 1
+  fi
+fi

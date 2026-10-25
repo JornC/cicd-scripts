@@ -86,3 +86,5 @@ done
 
 # Cleaning up flags
 read_job_flags_cleanup
+
+source "${CICD_SCRIPTS_DIR}/common/check_qa_pair_endpoint.envsh"
