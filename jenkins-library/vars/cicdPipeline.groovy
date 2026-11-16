@@ -70,6 +70,13 @@ def call(Map config = [:], Closure body) {
               wrapperEnvs['FLAGS'] = qaFlags
             }
 
+            // For PR check jobs, PR labels written as test flags (TEST_...) turn on those flags
+            if (jobIsPrChecker && env.CHANGE_ID) {
+              def pullRequestFlags = cicdGetPullRequestFlags()
+              echo "### [cicdPipeline] - PR check detected, flags from PR labels: '${pullRequestFlags}'"
+              wrapperEnvs['FLAGS'] = FlagUtil.addFlag(wrapperEnvs['FLAGS'] ?: env.FLAGS ?: '', pullRequestFlags)
+            }
+
             // QA-GENERIC can run any branch, but Sonar stores every upload as the main branch analysis.
             // Main is analysed by the nightly QA jobs, so skip the Sonar goal in every Maven invocation here.
             if (jobIsQAGeneric) {
