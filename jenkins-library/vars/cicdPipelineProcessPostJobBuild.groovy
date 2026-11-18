@@ -28,7 +28,7 @@ def call(Map config) {
 
   def paramFlags = ''
   // if it is a Map we should handle it as a Map that contains flags per theme
-  if (config.deployFlags && config.deployFlags instanceof Map) {
+  if (config.deployFlags instanceof Map) {
     def primaryServiceTheme = env.SERVICE_THEME.tokenize(',')[0]
 
     // First add any dynamic flags for this environment
