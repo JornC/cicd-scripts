@@ -217,8 +217,6 @@ echo '# region.terragrunt.hcl'
 cat "${ENV_ROOT_DIR}/region.terragrunt.hcl"
 echo '# account.terragrunt.hcl'
 cat "${ENV_ROOT_DIR}/account.terragrunt.hcl"
-echo '# environment.terragrunt.hcl'
-cat "${ENV_ROOT_DIR}/environment.terragrunt.hcl"
 
 # Do the real terragrunt action if it's not a dry run
 if [[ "${DEPLOY_TERRAFORM_ACTION}" != 'dry-run' ]]; then
